@@ -107,9 +107,9 @@ download_files(){
     if [ -f "$FILE" ]; then
         echo "$FILE exists."
     else 
-        wget -N --no-check-certificate "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
+        wget -N --no-check-certificate -O "$FILE" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
     fi
-    tar zxvf /usr/local/v1.tar.xz --directory /usr/local/x-ui
+    tar -xf "$FILE" --directory /usr/local/x-ui
     
     wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
     if [[ $? -ne 0 ]]; then
