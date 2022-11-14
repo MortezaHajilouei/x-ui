@@ -141,7 +141,7 @@ install_x-ui() {
     fi
 
     mkdir x-ui
-    mkdir x-ui-arch
+    mkdir x-ui-installer
     cd x-ui
 
     download_files
