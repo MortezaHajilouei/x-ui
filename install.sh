@@ -150,7 +150,6 @@ install_x-ui() {
 
     chmod +x x-ui bin/xray-linux-${arch}
     chmod +x x-ui.sh
-    chmod +x x-ui
 
     cp -f x-ui.service /etc/systemd/system/
     cp -f x-ui.sh /usr/bin/x-ui
