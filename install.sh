@@ -111,8 +111,8 @@ download_file(){
 }
 
 download_files(){
-    FILEV1=/usr/local/v1.tar.xz
-    FILE_XUI=/usr/local/x-ui.tar.xz
+    FILEV1=/usr/local/x-ui-arch/v1.tar.xz
+    FILE_XUI=/usr/local/x-ui-arch/x-ui.tar.xz
 
     if [ -f "$FILEV1" ]; then
         echo "$FILEV1 exists."
@@ -120,15 +120,17 @@ download_files(){
         download_file "$FILEV1" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
     fi
 
+    if [ -f "$FILE_XUI" ]; then
+        echo "$FILE_XUI exists."
+    else
+        download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
+    fi
+
     tar -xf "$FILEV1" --directory /usr/local/x-ui
+    tar -xf "$FILE_XUI" --directory /usr/local/x-ui
     
-
-    FILE=/usr/local/x-ui.tar.xz
-
     download_file "x-ui.service" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
     download_file "x-ui.sh" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.sh"
-    download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
-    tar -xf "$FILE_XUI" --directory /usr/local/x-ui
 
 }
 
@@ -141,16 +143,17 @@ install_x-ui() {
     fi
 
     mkdir x-ui
+    mkdir x-ui-arch
     cd x-ui
 
     download_files
 
     chmod +x x-ui bin/xray-linux-${arch}
-    chmod +x /usr/local/x-ui/x-ui.sh
+    chmod +x x-ui.sh
     chmod +x x-ui
 
     cp -f x-ui.service /etc/systemd/system/
-    cp -f x-ui /usr/bin/x-ui
+    cp -f x-ui.sh /usr/bin/x-ui.sh
     
 
     config_after_install
