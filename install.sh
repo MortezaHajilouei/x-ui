@@ -32,13 +32,11 @@ fi
 arch=$(arch)
 
 if [[ $arch == "x86_64" || $arch == "x64" || $arch == "amd64" ]]; then
-    arch="amd64"
+    arch="64"
 elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
-    arch="arm64"
-#elif [[ $arch == "s390x" ]]; then
-    #arch="s390x"
+    arch="arm64-v8"
 else
-    arch="amd64"
+    arch="64"
     echo -e "${red} failed to detect schema, use default schema: ${arch}${plain}"
 fi
 
@@ -111,13 +109,13 @@ download_file(){
 }
 
 download_files(){
-    FILEV1=/usr/local/x-ui-arch/v1.tar.xz
-    FILE_XUI=/usr/local/x-ui-arch/x-ui.tar.xz
+    FILEV_XRAY=/usr/local/x-ui-installer/Xray-linux-${arch}.zip
+    FILE_XUI=/usr/local/x-ui-installer/x-ui.tar.xz
 
-    if [ -f "$FILEV1" ]; then
-        echo "$FILEV1 exists."
+    if [ -f "$FILEV_XRAY" ]; then
+        echo "$FILEV_XRAY exists."
     else
-        download_file "$FILEV1" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
+        download_file "$FILEV_XRAY" "https://github.com/XTLS/Xray-core/releases/download/v1.6.4/Xray-linux-${arch}.zip"
     fi
 
     if [ -f "$FILE_XUI" ]; then
@@ -126,7 +124,7 @@ download_files(){
         download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
     fi
 
-    tar -xf "$FILEV1" --directory /usr/local/x-ui
+    tar -xf "$FILEV_XRAY" --directory /usr/local/x-ui
     tar -xf "$FILE_XUI" --directory /usr/local/x-ui
     
     download_file "x-ui.service" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
@@ -148,8 +146,7 @@ install_x-ui() {
 
     download_files
 
-    chmod +x x-ui bin/xray-linux-${arch}
-    chmod +x x-ui.sh
+    chmod +x x-ui bin/xray-linux-*   x-ui.sh
 
     cp -f x-ui.service /etc/systemd/system/
     cp -f x-ui.sh /usr/bin/x-ui
@@ -181,4 +178,4 @@ install_x-ui() {
 
 echo -e "${green} to install ${plain}"
 install_base
-install_x-ui $1
+install_x-ui
