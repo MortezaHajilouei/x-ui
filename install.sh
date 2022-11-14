@@ -102,33 +102,33 @@ config_after_install() {
     fi
 }
 
+download_file(){
+    wget -N --no-check-certificate -O "$1" "$2"
+    if [[ $? -ne 0 ]]; then
+        echo -e "${red} failed to download x-ui v$1"
+        exit 1
+    fi
+}
+
 download_files(){
-    FILE=/usr/local/v1.tar.xz
-    if [ -f "$FILE" ]; then
-        echo "$FILE exists."
-    else 
-        wget -N --no-check-certificate -O "$FILE" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
-    fi
-    tar -xf "$FILE" --directory /usr/local/x-ui
-    
-    wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
-    if [[ $? -ne 0 ]]; then
-        echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
-        exit 1
-    fi
-    wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.sh"
-    if [[ $? -ne 0 ]]; then
-        echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
-        exit 1
+    FILEV1=/usr/local/v1.tar.xz
+    FILE_XUI=/usr/local/x-ui.tar.xz
+
+    if [ -f "$FILEV1" ]; then
+        echo "$FILEV1 exists."
+    else
+        download_file "$FILEV1" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
     fi
 
+    tar -xf "$FILEV1" --directory /usr/local/x-ui
+    
+
     FILE=/usr/local/x-ui.tar.xz
-    wget -N --no-check-certificate -O "$FILE" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
-    if [[ $? -ne 0 ]]; then
-        echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
-        exit 1
-    fi
-    tar -xf "$FILE" --directory /usr/local/x-ui
+
+    download_file "x-ui.service" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
+    download_file "x-ui.sh" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.sh"
+    download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
+    tar -xf "$FILE_XUI" --directory /usr/local/x-ui
 
 }
 
