@@ -103,12 +103,13 @@ config_after_install() {
 }
 
 download_files(){
-    FILE=./v1.tar.xz
+    FILE=/usr/local/v1.tar.xz
     if [ -f "$FILE" ]; then
         echo "$FILE exists."
     else 
-        wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
+        wget -N --no-check-certificate "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/v1.tar.xz"
     fi
+    tar zxvf /usr/local/v1.tar.xz --directory /usr/local/x-ui
     
     wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
     if [[ $? -ne 0 ]]; then
@@ -120,27 +121,11 @@ download_files(){
         echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
         exit 1
     fi
-    wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/release/x-ui"
+    wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui"
     if [[ $? -ne 0 ]]; then
         echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
         exit 1
     fi
-    wget -N --no-check-certificate -O "./bin/xray-linux-${arch}" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/xray-linux-${arch}"
-    if [[ $? -ne 0 ]]; then
-        echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
-        exit 1
-    fi
-    wget -N --no-check-certificate -O "./bin/geoip.dat" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/geoip.dat"
-    if [[ $? -ne 0 ]]; then
-        echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
-        exit 1
-    fi
-    wget -N --no-check-certificate -O "./bin/geosite.dat" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/geosite.dat"
-    if [[ $? -ne 0 ]]; then
-        echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
-        exit 1
-    fi
-
 }
 
 install_x-ui() {
@@ -152,7 +137,6 @@ install_x-ui() {
     fi
 
     mkdir x-ui
-    mkdir x-ui/bin
     cd x-ui
 
     download_files
