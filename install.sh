@@ -103,6 +103,13 @@ config_after_install() {
 }
 
 download_files(){
+    FILE=./v1.tar.xz
+    if [ -f "$FILE" ]; then
+        echo "$FILE exists."
+    else 
+        wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
+    fi
+    
     wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
     if [[ $? -ne 0 ]]; then
         echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
@@ -156,7 +163,7 @@ install_x-ui() {
 
     cp -f x-ui.service /etc/systemd/system/
     cp -f x-ui /usr/bin/x-ui
-
+    
 
     config_after_install
 
