@@ -121,11 +121,15 @@ download_files(){
         echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
         exit 1
     fi
-    wget -N --no-check-certificate "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui"
+
+    FILE=/usr/local/x-ui.tar.xz
+    wget -N --no-check-certificate -O "$FILE" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
     if [[ $? -ne 0 ]]; then
         echo -e "${red} failed to download x-ui v$1, please make sure this version exists ${plain}"
         exit 1
     fi
+    tar -xf "$FILE" --directory /usr/local/x-ui
+
 }
 
 install_x-ui() {

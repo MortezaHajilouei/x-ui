@@ -1,5 +1,4 @@
-rm x-ui
-rm ./bin/x-ui.tar.gz
+rm ./bin/x-ui.tar.xz
 go build -ldflags "-w" -o x-ui main.go
-tar -czvf ./bin/x-ui.tar.gz x-ui
+tar -I 'xz -9 -T0' -cf ./bin/x-ui.tar.xz x-ui
 rm x-ui
