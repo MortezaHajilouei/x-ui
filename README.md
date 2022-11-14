@@ -7,6 +7,13 @@ xray panel supporting multi-protocol, **Multi-lang (English,Chinese)**, **IP Res
 ```
 bash <(curl -Ls https://raw.githubusercontent.com/mortezahajilouei/x-ui/master/install.sh)
 ```
+or
+
+```
+wget https://raw.githubusercontent.com/mortezahajilouei/x-ui/master/install.sh
+sudo bash ./install.sh
+```
+
 
 # Enable IP Restrictions Per Inbound
 1 - open panel settings and tab xray related settings put this to first of json :
