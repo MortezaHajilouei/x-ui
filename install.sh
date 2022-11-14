@@ -73,9 +73,9 @@ fi
 
 install_base() {
     if [[ x"${release}" == x"centos" ]]; then
-        yum install wget curl tar -y
+        yum install wget curl tar unzip -y
     else
-        apt install wget curl tar -y
+        apt install wget curl tar unzip -y
     fi
 }
 
@@ -123,8 +123,7 @@ download_files(){
     else
         download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
     fi
-
-    tar -xf "$FILEV_XRAY" --directory /usr/local/x-ui
+    unzip "$FILEV_XRAY" -d /usr/local/x-ui/bin
     tar -xf "$FILE_XUI" --directory /usr/local/x-ui
     
     download_file "x-ui.service" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
@@ -141,12 +140,13 @@ install_x-ui() {
     fi
 
     mkdir x-ui
+    mkdir x-ui/bin
     mkdir x-ui-installer
     cd x-ui
 
     download_files
 
-    chmod +x x-ui bin/xray-linux-*   x-ui.sh
+    chmod +x x-ui bin/xray*   x-ui.sh
 
     cp -f x-ui.service /etc/systemd/system/
     cp -f x-ui.sh /usr/bin/x-ui
