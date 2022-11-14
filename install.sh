@@ -153,7 +153,7 @@ install_x-ui() {
     chmod +x x-ui
 
     cp -f x-ui.service /etc/systemd/system/
-    cp -f x-ui.sh /usr/bin/x-ui.sh
+    cp -f x-ui.sh /usr/bin/x-ui
     
 
     config_after_install
