@@ -30,13 +30,14 @@ else
 fi
 
 arch=$(arch)
+file_name="64"
 
 if [[ $arch == "x86_64" || $arch == "x64" || $arch == "amd64" ]]; then
-    arch="64"
+    arch="amd64"
 elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
-    arch="arm64-v8"
+    arch="arm64"
 else
-    arch="64"
+    arch="amd64"
     echo -e "${red} failed to detect schema, use default schema: ${arch}${plain}"
 fi
 
@@ -109,13 +110,13 @@ download_file(){
 }
 
 download_files(){
-    FILEV_XRAY=/usr/local/x-ui-installer/Xray-linux-${arch}.zip
-    FILE_XUI=/usr/local/x-ui-installer/x-ui.tar.xz
+    FILE_XRAY=/usr/local/x-ui-data/Xray-linux-${file_name}.zip
+    FILE_XUI=/usr/local/x-ui-data/x-ui.tar.xz
 
-    if [ -f "$FILEV_XRAY" ]; then
-        echo "$FILEV_XRAY exists."
+    if [ -f "$FILE_XRAY" ]; then
+        echo "$FILE_XRAY exists."
     else
-        download_file "$FILEV_XRAY" "https://github.com/XTLS/Xray-core/releases/download/v1.6.4/Xray-linux-${arch}.zip"
+        download_file "$FILE_XRAY" "https://github.com/XTLS/Xray-core/releases/download/v1.6.4/Xray-linux-${file_name}.zip"
     fi
 
     if [ -f "$FILE_XUI" ]; then
@@ -123,9 +124,10 @@ download_files(){
     else
         download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
     fi
-    unzip "$FILEV_XRAY" -d /usr/local/x-ui/bin
+    unzip "$FILE_XRAY" -d /usr/local/x-ui/bin
     tar -xf "$FILE_XUI" --directory /usr/local/x-ui
     
+    mv /usr/local/x-ui/bin/xray /usr/local/x-ui/bin/xray-linux-${arch}
     download_file "x-ui.service" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.service"
     download_file "x-ui.sh" "https://raw.githubusercontent.com/MortezaHajilouei/x-ui/main/x-ui.sh"
 
@@ -141,7 +143,7 @@ install_x-ui() {
 
     mkdir x-ui
     mkdir x-ui/bin
-    mkdir x-ui-installer
+    mkdir x-ui-data
     cd x-ui
 
     download_files

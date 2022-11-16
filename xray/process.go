@@ -24,8 +24,7 @@ import (
 var trafficRegex = regexp.MustCompile("(inbound|outbound)>>>([^>]+)>>>traffic>>>(downlink|uplink)")
 
 func GetBinaryName() string {
-	return fmt.Sprintf("xray")
-	//return fmt.Sprintf("xray-%s-%s", runtime.GOOS, runtime.GOARCH)
+	return fmt.Sprintf("xray-%s-%s", runtime.GOOS, runtime.GOARCH)
 }
 
 func GetBinaryPath() string {
@@ -162,7 +161,8 @@ func (p *process) Start() (err error) {
 		return common.NewErrorf("写入配置文件失败: %v", err)
 	}
 
-	cmd := exec.Command(GetBinaryPath(), "-c", configPath, "-restrictedIPsPath", "./bin/blockedIPs")
+	xrayPath := GetBinaryPath()
+	cmd := exec.Command(xrayPath, "-c", configPath, "-restrictedIPsPath", "./bin/blockedIPs")
 	p.cmd = cmd
 
 	stdReader, err := cmd.StdoutPipe()
