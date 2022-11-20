@@ -122,7 +122,7 @@ download_files(){
     if [ -f "$FILE_XUI" ]; then
         echo "$FILE_XUI exists."
     else
-        download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
+        download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/x-ui.tar.xz"
     fi
 
     tar -xf "$FILE_XRAY" --directory /usr/local/x-ui/bin
