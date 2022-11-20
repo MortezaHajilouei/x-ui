@@ -162,7 +162,7 @@ func (p *process) Start() (err error) {
 	}
 
 	xrayPath := GetBinaryPath()
-	cmd := exec.Command(xrayPath, "-c", configPath) //, "-restrictedIPsPath", "./bin/blockedIPs"
+	cmd := exec.Command(xrayPath, "-c", configPath, "-ban", "blockedIPs")
 	p.cmd = cmd
 
 	stdReader, err := cmd.StdoutPipe()
