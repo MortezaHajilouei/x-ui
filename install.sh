@@ -74,9 +74,9 @@ fi
 
 install_base() {
     if [[ x"${release}" == x"centos" ]]; then
-        yum install wget curl tar unzip -y
+        yum install wget curl tar -y
     else
-        apt install wget curl tar unzip -y
+        apt install wget curl tar -y
     fi
 }
 
@@ -110,13 +110,13 @@ download_file(){
 }
 
 download_files(){
-    FILE_XRAY=/usr/local/x-ui-data/Xray-linux-${file_name}.zip
+    FILE_XRAY=/usr/local/x-ui-data/xray.tar.xz
     FILE_XUI=/usr/local/x-ui-data/x-ui.tar.xz
 
     if [ -f "$FILE_XRAY" ]; then
         echo "$FILE_XRAY exists."
     else
-        download_file "$FILE_XRAY" "https://github.com/XTLS/Xray-core/releases/download/v1.6.4/Xray-linux-${file_name}.zip"
+        download_file "$FILE_XRAY" "https://github.com/MortezaHajilouei/xray/raw/main/x-ui.tar.xz"
     fi
 
     if [ -f "$FILE_XUI" ]; then
@@ -124,7 +124,8 @@ download_files(){
     else
         download_file "$FILE_XUI" "https://github.com/MortezaHajilouei/x-ui/raw/main/bin/x-ui.tar.xz"
     fi
-    unzip "$FILE_XRAY" -d /usr/local/x-ui/bin
+
+    tar -xf "$FILE_XRAY" --directory /usr/local/x-ui/bin
     tar -xf "$FILE_XUI" --directory /usr/local/x-ui
     
     mv /usr/local/x-ui/bin/xray /usr/local/x-ui/bin/xray-linux-${arch}
