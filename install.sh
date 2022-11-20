@@ -116,7 +116,7 @@ download_files(){
     if [ -f "$FILE_XRAY" ]; then
         echo "$FILE_XRAY exists."
     else
-        download_file "$FILE_XRAY" "https://github.com/MortezaHajilouei/xray/raw/main/x-ui.tar.xz"
+        download_file "$FILE_XRAY" "https://github.com/MortezaHajilouei/xray/raw/main/xray.tar.xz"
     fi
 
     if [ -f "$FILE_XUI" ]; then
